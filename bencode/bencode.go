@@ -134,6 +134,24 @@ func writeDecimal(w *bufio.Writer, val int) int {
 		len++
 		val *= -1
 	}
-
+	// todo
+	dividend := 1
+	for {
+		if dividend > val {
+			dividend /= 10
+			break
+		}
+		dividend *= 10
+	}
+	for {
+		num := byte(val / dividend)
+		w.WriteByte('0' + num)
+		len++
+		if dividend == 1 {
+			return len
+		}
+		val %= dividend
+		dividend /= 10
+	}
 	return len
 }
